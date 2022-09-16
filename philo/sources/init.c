@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/16 20:23:43 by fkhan            ###   ########.fr       */
+/*   Created: 2022/09/16 18:00:57 by fkhan             #+#    #+#             */
+/*   Updated: 2022/09/16 20:16:42 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	start(size_t *params, int size)
+t_pinfo	*init_pinfo(size_t *params, int size)
 {
 	t_pinfo	*pinfo;
 
-	pinfo = init_pinfo(params, size);
+	if (size < 4)
+		return (0);
+	pinfo = malloc(sizeof(t_pinfo));
 	if (!pinfo)
 		return (0);
-	return (1);
-}
-
-int	main(int ac, char **av)
-{
-	size_t	*params;
-	int		len;
-
-	len = ac - 1;
-	params = parse_arg(av + 1, len);
-	if (params && start(params, len))
-	{
-		free(params);
-		return (0);
-	}
-	printf("Error\n");
-	free(params);
-	return (0);
+	pinfo->amount = params[0];
+	pinfo->time_to_die = params[1];
+	pinfo->time_to_eat = params[2];
+	pinfo->time_to_sleep = params[3];
+	if (size > 4)
+		pinfo->amount_to_eat = params[4];
+	else
+		pinfo->amount_to_eat = 0;
+	return (pinfo);
 }

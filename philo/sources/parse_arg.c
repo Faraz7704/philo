@@ -1,40 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   parse_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/16 20:23:43 by fkhan            ###   ########.fr       */
+/*   Created: 2022/09/16 18:00:57 by fkhan             #+#    #+#             */
+/*   Updated: 2022/09/16 20:17:57 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	start(size_t *params, int size)
+size_t	*parse_arg(char **av, int size)
 {
-	t_pinfo	*pinfo;
+	int		i;
+	size_t	*new;
 
-	pinfo = init_pinfo(params, size);
-	if (!pinfo)
+	if (!size)
 		return (0);
-	return (1);
-}
-
-int	main(int ac, char **av)
-{
-	size_t	*params;
-	int		len;
-
-	len = ac - 1;
-	params = parse_arg(av + 1, len);
-	if (params && start(params, len))
+	new = malloc(sizeof(size_t) * size);
+	if (!new)
+		return (0);
+	i = 0;
+	while (i < size)
 	{
-		free(params);
-		return (0);
+		if (!ft_atol(av[i], &new[i]))
+		{
+			free(new);
+			return (0);
+		}
+		i++;
 	}
-	printf("Error\n");
-	free(params);
-	return (0);
+	return (new);
 }
