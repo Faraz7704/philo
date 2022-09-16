@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:23 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/16 20:14:13 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/16 20:25:15 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ t_pinfo		*init_pinfo(size_t *params, int size);
 
 // parse_arg
 size_t		*parse_arg(char **av, int size);
-
-// parse_arg_utils
-
 
 // utils
 int			ft_atol(const char *string, size_t *dst);

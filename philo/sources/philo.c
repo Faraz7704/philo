@@ -6,13 +6,13 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/16 20:23:43 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/16 20:25:40 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	start(size_t *params, int size)
+static int	start(size_t *params, int size)
 {
 	t_pinfo	*pinfo;
 
