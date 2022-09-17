@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:23 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/16 20:25:15 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/17 17:53:28 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ typedef enum e_state
 
 typedef struct s_philo
 {
-	int				id;
-	size_t			lfork;
-	size_t			rfork;
-	t_state			state;
+	pthread_t	thid;
+	size_t		id;
+	size_t		lfork;
+	size_t		rfork;
+	t_state		state;
 }	t_philo;
 
 typedef struct s_pinfo
@@ -49,11 +50,22 @@ typedef struct s_pinfo
 	pthread_mutex_t	die_mutex;
 }	t_pinfo;
 
+typedef struct s_thdata
+{
+	t_pinfo	*pinfo;
+	t_philo	*philo;
+}	t_thdata;
+
+// routine
+void		*philo_routine(t_thdata data);
+
 // logger
 void		log_philo(t_pinfo *info, t_philo philo);
 
 // init
 t_pinfo		*init_pinfo(size_t *params, int size);
+t_thdata	init_thdata(t_pinfo *pinfo, t_philo *philo);
+t_philo		*init_philo(t_pinfo *pinfo);
 
 // parse_arg
 size_t		*parse_arg(char **av, int size);

@@ -3,6 +3,8 @@
         "philo.h": "c",
         "locale": "c",
         "string": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "_pthread_types.h": "c",
+        "__threading_support": "c"
     }
 }
