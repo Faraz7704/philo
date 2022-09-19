@@ -6,16 +6,11 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/17 17:55:47 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/19 19:52:12 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	*philo_routine(t_thdata data)
-{
-
-}
 
 static void	exit_app(t_pinfo *pinfo, t_philo *philos)
 {
@@ -23,9 +18,16 @@ static void	exit_app(t_pinfo *pinfo, t_philo *philos)
 
 	i = 0;
 	while (i < pinfo->amount)
-		pthread_mutex_destroy(&pinfo->forks_mutexes[i++]);
+	{
+		pthread_join(philos[i].thid, NULL);
+		pthread_mutex_destroy(&pinfo->forks_mutexes[i]);
+		i++;
+	}
 	pthread_mutex_destroy(&pinfo->write_mutex);
 	pthread_mutex_destroy(&pinfo->die_mutex);
+	free(philos);
+	free(pinfo->forks_mutexes);
+	free(pinfo);
 }
 
 static int	start_app(size_t *params, int size)
@@ -37,6 +39,8 @@ static int	start_app(size_t *params, int size)
 	if (!pinfo)
 		return (0);
 	philos = init_philo(pinfo);
+	if (!philos)
+		return (0);
 	exit_app(pinfo, philos);
 	return (1);
 }
@@ -48,12 +52,12 @@ int	main(int ac, char **av)
 
 	len = ac - 1;
 	params = parse_arg(av + 1, len);
-	if (params && start_philo(params, len))
+	if (params && start_app(params, len))
 	{
 		free(params);
 		return (0);
 	}
 	printf("Error\n");
 	free(params);
-	return (0);
+	return (1);
 }

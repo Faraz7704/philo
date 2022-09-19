@@ -6,26 +6,26 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 23:20:00 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/16 20:08:05 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/18 15:56:17 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atol(const char *string, size_t *dst)
+int	ft_atol(const char *str, size_t *dst)
 {
 	int	i;
 
 	i = 0;
-	if (string[i] == '\0')
+	if (str[i] == '\0')
 		return (0);
 	*dst = 0;
-	while (string[i] && string[i] >= '0' && string[i] <= '9')
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
 	{
-		*dst = *dst * 10 + (string[i] - '0');
+		*dst = *dst * 10 + (str[i] - '0');
 		i++;
 	}
-	if (string[i] != '\0')
+	if (str[i] != '\0')
 		return (0);
 	return (1);
 }

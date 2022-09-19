@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:23 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/17 17:53:28 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/19 19:45:56 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,20 @@ typedef enum e_state
 	FINISHED,
 }	t_state;
 
+typedef struct s_thdata
+{
+	struct s_pinfo	*pinfo;
+	struct s_philo	*philo;
+}	t_thdata;
+
 typedef struct s_philo
 {
-	pthread_t	thid;
-	size_t		id;
-	size_t		lfork;
-	size_t		rfork;
-	t_state		state;
+	pthread_t		thid;
+	size_t			id;
+	size_t			lfork_index;
+	size_t			rfork_index;
+	t_state			state;
+	int				(*action)(t_thdata *data);
 }	t_philo;
 
 typedef struct s_pinfo
@@ -50,29 +57,34 @@ typedef struct s_pinfo
 	pthread_mutex_t	die_mutex;
 }	t_pinfo;
 
-typedef struct s_thdata
-{
-	t_pinfo	*pinfo;
-	t_philo	*philo;
-}	t_thdata;
+pthread_mutex_t	g_write_mutex;
 
 // routine
-void		*philo_routine(t_thdata data);
+void			*philo_routine(void *data);
 
 // logger
-void		log_philo(t_pinfo *info, t_philo philo);
+void			log_philo(t_pinfo *info, t_philo philo);
+
+// philo_states
+int				philo_takefork(t_thdata *data);
+int				philo_eat(t_thdata *data);
+int				philo_sleep(t_thdata *data);
+int				philo_think(t_thdata *data);
+int				philo_isdied(t_thdata *data);
+int				philo_finished(t_thdata *data);
 
 // init
-t_pinfo		*init_pinfo(size_t *params, int size);
-t_thdata	init_thdata(t_pinfo *pinfo, t_philo *philo);
-t_philo		*init_philo(t_pinfo *pinfo);
+t_pinfo			*init_pinfo(size_t *params, int size);
+pthread_mutex_t	*init_forks_mutexes(int size);
+t_thdata		*init_thdata(t_pinfo *pinfo, t_philo *philo);
+t_philo			*init_philo(t_pinfo *pinfo);
 
 // parse_arg
-size_t		*parse_arg(char **av, int size);
+size_t			*parse_arg(char **av, int size);
 
 // utils
-int			ft_atol(const char *string, size_t *dst);
-size_t		ft_get_time(void);
-void		ft_usleep(size_t ms);
+int				ft_atol(const char *str, size_t *dst);
+size_t			ft_get_time(void);
+void			ft_usleep(size_t ms);
 
 #endif
