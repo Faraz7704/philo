@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/19 19:52:12 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/20 21:26:32 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ static void	exit_app(t_pinfo *pinfo, t_philo *philos)
 	while (i < pinfo->amount)
 	{
 		pthread_join(philos[i].thid, NULL);
-		pthread_mutex_destroy(&pinfo->forks_mutexes[i]);
+		mutex_destroy(&philos[i].lfork);
 		i++;
 	}
-	pthread_mutex_destroy(&pinfo->write_mutex);
-	pthread_mutex_destroy(&pinfo->die_mutex);
 	free(philos);
-	free(pinfo->forks_mutexes);
+	mutex_destroy(&pinfo->write);
+	mutex_destroy(&pinfo->quit);
 	free(pinfo);
 }
 

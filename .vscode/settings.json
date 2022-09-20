@@ -10,6 +10,7 @@
         "iterator": "c",
         "string_view": "c",
         "vector": "c",
-        "iosfwd": "c"
+        "iosfwd": "c",
+        "__mutex_base": "c"
     }
 }

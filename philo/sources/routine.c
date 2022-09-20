@@ -6,41 +6,46 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/19 19:51:48 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/20 21:21:37 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	philo_setaction(t_philo *philo)
+static void	philo_set_action(t_philo *philo)
 {
-	if (philo->state == EATING)
-		philo->action = &philo_eat;
+	if (philo->state == TAKING_FORK)
+		philo->action = &pstate_takeforks;
+	else if (philo->state == EATING)
+		philo->action = &pstate_eat;
 	else if (philo->state == SLEEPING)
-		philo->action = &philo_sleep;
+		philo->action = &pstate_sleep;
 	else if (philo->state == THINKING)
-		philo->action = &philo_think;
+		philo->action = &pstate_think;
 	else if (philo->state == DIED)
-		philo->action = &philo_isdied;
+		philo->action = &pstate_died;
 	else if (philo->state == FINISHED)
-		philo->action = &philo_finished;
+		philo->action = &pstate_finished;
 	else
-		philo->action = &philo_takefork;
+		philo->action = &pstate_start;
 }
 
 void	*philo_routine(void *data)
 {
-	t_philo	*philo;
-	size_t	start_time;
+	t_thdata	*thdata;
+	t_pinfo		*pinfo;
+	t_philo		*philo;
 
-	philo = ((t_thdata *)data)->philo;
-	start_time = ft_get_time();
-	while (1)
+	thdata = (t_thdata *)data;
+	pinfo = thdata->pinfo;
+	philo = thdata->philo;
+	philo->createdt = ft_get_time();
+	while (pinfo->quit.status)
 	{
-		philo_setaction(philo);
-		if (philo->action((t_thdata *)data))
+		philo_set_action(philo);
+		if (philo->action(pinfo, philo))
 			break ;
 	}
 	free(data);
-	return (0);
+	return (NULL);
 }
