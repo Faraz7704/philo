@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/20 21:26:32 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/21 16:24:55 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,52 @@ static void	exit_app(t_pinfo *pinfo, t_philo *philos)
 	i = 0;
 	while (i < pinfo->amount)
 	{
-		pthread_join(philos[i].thid, NULL);
-		mutex_destroy(&philos[i].lfork);
+		pthread_mutex_destroy(&pinfo->fork_mutexes[i]);
 		i++;
 	}
 	free(philos);
-	mutex_destroy(&pinfo->write);
-	mutex_destroy(&pinfo->quit);
+	pthread_mutex_destroy(&pinfo->write_mutex);
+	pthread_mutex_destroy(&pinfo->quit_mutex);
 	free(pinfo);
+}
+
+static int	start_threads(t_pinfo *pinfo, t_philo *philos)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < pinfo->amount)
+	{
+		if (pthread_create(&philos[i].thid, NULL,
+				&philo_routine, init_thdata(pinfo, &philos[i])))
+			return (1);
+		i++;
+	}
+	i = 0;
+	while (i < pinfo->amount)
+	{
+		if (pthread_join(philos[i].thid, NULL))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 static int	start_app(size_t *params, int size)
 {
 	t_pinfo	*pinfo;
 	t_philo	*philos;
+	int		status;
 
 	pinfo = init_pinfo(params, size);
 	if (!pinfo)
-		return (0);
+		return (1);
 	philos = init_philo(pinfo);
 	if (!philos)
-		return (0);
+		return (1);
+	status = start_threads(pinfo, philos);
 	exit_app(pinfo, philos);
-	return (1);
+	return (status);
 }
 
 int	main(int ac, char **av)
@@ -51,7 +74,7 @@ int	main(int ac, char **av)
 
 	len = ac - 1;
 	params = parse_arg(av + 1, len);
-	if (params && start_app(params, len))
+	if (params && !start_app(params, len))
 	{
 		free(params);
 		return (0);

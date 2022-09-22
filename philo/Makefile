@@ -6,12 +6,12 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/09/20 21:12:00 by fkhan            ###   ########.fr        #
+#    Updated: 2022/09/22 14:20:14 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 				= philo
-CC 					= gcc
+CC 					= gcc -g
 FLAGS 				= -Wall -Werror -Wextra
 INCLUDES 			= -I$(HEADERS_DIRECTORY)
 
@@ -22,7 +22,7 @@ HEADERS 			= $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 SOURCES_DIRECTORY 	= ./sources/
 SOURCES_LIST 		= philo.c utils.c logger.c init.c parse_arg.c routine.c \
 						philo_states.c philo_state_control.c philo_utils.c \
-						mutex.c
+						philo_exit_states.c
 SOURCES 			= $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY 	= objects/
@@ -37,7 +37,7 @@ RESET 				= \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@$(CC) $(FLAGS) $(OBJECTS) $(INCLUDES) -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJECTS) -lpthread $(INCLUDES) -o $(NAME)
 	@echo "\n$(NAME): $(GREEN)object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 
