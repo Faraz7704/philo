@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:00:57 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:22:43 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/24 19:57:19 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@ t_pinfo	*init_pinfo(size_t *params, int size)
 	if (size > 4)
 		pinfo->amount_to_eat = params[4];
 	else
-		pinfo->amount_to_eat = 4294967295;
+		pinfo->amount_to_eat = -1;
 	pinfo->quit_status = 0;
-	if (init_forks(&pinfo->fork_mutexes, pinfo->amount))
+	pinfo->finish_status = pinfo->amount_to_eat;
+	if (init_forks(pinfo, pinfo->amount))
+		return (0);
+	if (pthread_mutex_init(&pinfo->finish_mutex, NULL))
 		return (0);
 	if (pthread_mutex_init(&pinfo->write_mutex, NULL))
 		return (0);
@@ -51,19 +54,24 @@ t_thdata	*init_thdata(t_pinfo *pinfo, t_philo *philo)
 	return (data);
 }
 
-int	init_forks(pthread_mutex_t **forks, size_t size)
+int	init_forks(t_pinfo *pinfo, size_t size)
 {
 	size_t			i;
 
-	forks[0] = malloc(sizeof(pthread_mutex_t) * size);
-	if (!forks)
+	pinfo->fork_mutexes = malloc(sizeof(pthread_mutex_t) * size);
+	if (!pinfo->fork_mutexes)
+		return (1);
+	pinfo->forks_status = malloc(sizeof(pthread_mutex_t) * size);
+	if (!pinfo->forks_status)
 		return (1);
 	i = 0;
 	while (i < size)
 	{
-		if (pthread_mutex_init(&forks[0][i], NULL))
+		pinfo->forks_status[i] = 1;
+		if (pthread_mutex_init(&pinfo->fork_mutexes[i], NULL))
 		{
-			free(forks);
+			free(pinfo->fork_mutexes);
+			free(pinfo->forks_status);
 			return (1);
 		}
 		i++;

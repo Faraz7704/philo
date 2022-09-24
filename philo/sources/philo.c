@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/21 16:24:55 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/24 19:59:02 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,18 @@ static void	exit_app(t_pinfo *pinfo, t_philo *philos)
 {
 	size_t	i;
 
+	free(philos);
 	i = 0;
 	while (i < pinfo->amount)
 	{
 		pthread_mutex_destroy(&pinfo->fork_mutexes[i]);
 		i++;
 	}
-	free(philos);
+	pthread_mutex_destroy(&pinfo->finish_mutex);
 	pthread_mutex_destroy(&pinfo->write_mutex);
 	pthread_mutex_destroy(&pinfo->quit_mutex);
+	free(pinfo->fork_mutexes);
+	free(pinfo->forks_status);
 	free(pinfo);
 }
 
@@ -57,7 +60,7 @@ static int	start_app(size_t *params, int size)
 	int		status;
 
 	pinfo = init_pinfo(params, size);
-	if (!pinfo)
+	if (!pinfo || !pinfo->amount_to_eat)
 		return (1);
 	philos = init_philo(pinfo);
 	if (!philos)

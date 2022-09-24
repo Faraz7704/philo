@@ -12,6 +12,7 @@
         "vector": "c",
         "iosfwd": "c",
         "__mutex_base": "c",
-        "ostream": "c"
+        "ostream": "c",
+        "chrono": "c"
     }
 }

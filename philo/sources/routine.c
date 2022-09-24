@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:39:38 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/24 20:01:08 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,6 @@ static void	philo_set_action(t_philo *philo)
 		philo->action = &pstate_start;
 }
 
-static int	validate_routine(t_pinfo *pinfo, t_philo *philo)
-{
-	pthread_mutex_lock(&pinfo->quit_mutex);
-	if (pinfo->quit_status)
-	{
-		if (philo->state == EATING)
-		{
-			pthread_mutex_unlock(&pinfo->fork_mutexes[philo->rfork]);
-			pthread_mutex_unlock(&pinfo->fork_mutexes[philo->lfork]);
-		}
-		pthread_mutex_unlock(&pinfo->quit_mutex);
-		return (0);
-	}
-	pthread_mutex_unlock(&pinfo->quit_mutex);
-	return (1);
-}
-
 void	*philo_routine(void *data)
 {
 	t_thdata	*thdata;
@@ -57,11 +40,11 @@ void	*philo_routine(void *data)
 	pinfo = thdata->pinfo;
 	philo = thdata->philo;
 	philo->createdt = ft_get_time();
-	while (1)
+	while (get_quit_status(pinfo))
 	{
 		is_pstate_valid(pinfo, philo);
 		philo_set_action(philo);
-		if (philo->action(pinfo, philo) || !validate_routine(pinfo, philo))
+		if (philo->action(pinfo, philo))
 			break ;
 	}
 	free(data);

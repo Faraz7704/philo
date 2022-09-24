@@ -6,7 +6,7 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/09/22 14:20:14 by fkhan            ###   ########.fr        #
+#    Updated: 2022/09/24 19:00:05 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ HEADERS 			= $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 SOURCES_DIRECTORY 	= ./sources/
 SOURCES_LIST 		= philo.c utils.c logger.c init.c parse_arg.c routine.c \
 						philo_states.c philo_state_control.c philo_utils.c \
-						philo_exit_states.c
+						philo_exit_states.c philo_states_utils.c
 SOURCES 			= $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY 	= objects/

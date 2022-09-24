@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:23 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:20:00 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/24 20:00:59 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_philo
 {
 	pthread_t		thid;
 	size_t			id;
-	size_t			meals;
+	ssize_t			meals;
 	size_t			lfork;
 	size_t			rfork;
 	t_state			state;
@@ -62,11 +62,14 @@ typedef struct s_pinfo
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	size_t			amount_to_eat;
+	ssize_t			amount_to_eat;
+	pthread_mutex_t	finish_mutex;
+	size_t			finish_status;
 	pthread_mutex_t	*fork_mutexes;
+	size_t			*forks_status;
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	quit_mutex;
-	int				quit_status;
+	size_t			quit_status;
 }	t_pinfo;
 
 // routine
@@ -82,6 +85,12 @@ int				pstate_takeforks(t_pinfo *pinfo, t_philo *philo);
 int				pstate_eat(t_pinfo *pinfo, t_philo *philo);
 int				pstate_sleep(t_pinfo *pinfo, t_philo *philo);
 int				pstate_think(t_pinfo *pinfo, t_philo *philo);
+
+// philo_states_utils
+int				get_quit_status(t_pinfo *pinfo);
+void			set_forks_status(t_pinfo *pinfo, t_philo *philo, int value);
+int				get_forks_status(t_pinfo *pinfo, t_philo *philo);
+void			update_meals(t_pinfo *pinfo, t_philo *philo);
 
 // philo_exit_states
 int				pstate_died(t_pinfo *pinfo, t_philo *philo);
@@ -99,7 +108,7 @@ size_t			philo_currt(t_philo *philo);
 t_pinfo			*init_pinfo(size_t *params, int size);
 t_thdata		*init_thdata(t_pinfo *pinfo, t_philo *philo);
 t_philo			*init_philo(t_pinfo *pinfo);
-int				init_forks(pthread_mutex_t **forks, size_t size);
+int				init_forks(t_pinfo *pinfo, size_t size);
 
 // parse_arg
 size_t			*parse_arg(char **av, int size);
