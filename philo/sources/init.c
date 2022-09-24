@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:00:57 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/24 19:57:19 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/24 20:06:30 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_pinfo	*init_pinfo(size_t *params, int size)
 	else
 		pinfo->amount_to_eat = -1;
 	pinfo->quit_status = 0;
-	pinfo->finish_status = pinfo->amount_to_eat;
+	pinfo->finish_status = pinfo->amount_to_eat * pinfo->amount;
 	if (init_forks(pinfo, pinfo->amount))
 		return (0);
 	if (pthread_mutex_init(&pinfo->finish_mutex, NULL))

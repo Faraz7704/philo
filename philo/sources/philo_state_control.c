@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/24 19:50:22 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/24 20:04:49 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	is_pstate_valid(t_pinfo *pinfo, t_philo *philo)
 
 int	pstate_transition(t_pinfo *pinfo, t_philo *philo, t_state next_state)
 {
+	(void)pinfo;
 	philo->state = next_state;
-	return (is_pstate_valid(pinfo, philo));
+	return (1);
 }

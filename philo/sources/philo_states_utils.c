@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/24 20:01:32 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/24 20:05:02 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	update_meals(t_pinfo *pinfo, t_philo *philo)
 	if (philo->meals == pinfo->amount_to_eat)
 	{
 		if (!--pinfo->finish_status)
-			philo->state = FINISHED;
+			pstate_transition(pinfo, philo, FINISHED);
 	}
 	pthread_mutex_unlock(&pinfo->finish_mutex);
 }
