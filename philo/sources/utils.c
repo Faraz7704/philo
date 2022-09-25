@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 23:20:00 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/25 15:51:54 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/25 19:56:11 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ void	ft_usleep(size_t ms)
 
 	end = ft_get_time() + ms;
 	while (ft_get_time() < end)
-		usleep(ms / 1000);
+		usleep(ms);
 }
