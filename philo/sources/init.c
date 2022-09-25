@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:00:57 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/24 20:06:30 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/25 19:30:08 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,27 @@ t_pinfo	*init_pinfo(size_t *params, int size)
 	else
 		pinfo->amount_to_eat = -1;
 	pinfo->quit_status = 0;
-	pinfo->finish_status = pinfo->amount_to_eat * pinfo->amount;
+	pinfo->finish_status = pinfo->amount;
 	if (init_forks(pinfo, pinfo->amount))
+	{
+		free(pinfo);
 		return (0);
+	}
 	if (pthread_mutex_init(&pinfo->finish_mutex, NULL))
+	{
+		free(pinfo);
 		return (0);
+	}
 	if (pthread_mutex_init(&pinfo->write_mutex, NULL))
+	{
+		free(pinfo);
 		return (0);
+	}
 	if (pthread_mutex_init(&pinfo->quit_mutex, NULL))
+	{
+		free(pinfo);
 		return (0);
+	}
 	return (pinfo);
 }
 
@@ -91,6 +103,16 @@ static void	setforks(t_philo *philo, int i, int amount)
 		philo->lfork = (i - 1) % amount;
 		philo->rfork = i;
 	}
+	if (amount % 2 == 0)
+		philo->fork_value = philo->id;
+	else if (i == 0)
+		philo->fork_value = 2;
+	else if (i == 1)
+		philo->fork_value = amount;
+	else if (i == amount - 1)
+		philo->fork_value = 1;
+	else
+		philo->fork_value = philo->id;
 }
 
 t_philo	*init_philo(t_pinfo *pinfo)

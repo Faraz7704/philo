@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/24 20:04:55 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/25 18:57:28 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	pstate_eat(t_pinfo *pinfo, t_philo *philo)
 		return (0);
 	}
 	ft_usleep(pinfo->time_to_eat);
-	set_forks_status(pinfo, philo, 1);
+	set_forks_status(pinfo, philo, philo->id);
 	pstate_transition(pinfo, philo, SLEEPING);
 	update_meals(pinfo, philo);
 	return (0);

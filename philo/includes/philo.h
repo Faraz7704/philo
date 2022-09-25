@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:23 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/24 20:00:59 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/25 19:33:40 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_philo
 {
 	pthread_t		thid;
 	size_t			id;
+	size_t			fork_value;
 	ssize_t			meals;
 	size_t			lfork;
 	size_t			rfork;
@@ -73,6 +74,7 @@ typedef struct s_pinfo
 }	t_pinfo;
 
 // routine
+int				get_quit_status(t_pinfo *pinfo);
 void			*philo_routine(void *data);
 
 // logger
@@ -86,12 +88,6 @@ int				pstate_eat(t_pinfo *pinfo, t_philo *philo);
 int				pstate_sleep(t_pinfo *pinfo, t_philo *philo);
 int				pstate_think(t_pinfo *pinfo, t_philo *philo);
 
-// philo_states_utils
-int				get_quit_status(t_pinfo *pinfo);
-void			set_forks_status(t_pinfo *pinfo, t_philo *philo, int value);
-int				get_forks_status(t_pinfo *pinfo, t_philo *philo);
-void			update_meals(t_pinfo *pinfo, t_philo *philo);
-
 // philo_exit_states
 int				pstate_died(t_pinfo *pinfo, t_philo *philo);
 int				pstate_finished(t_pinfo *pinfo, t_philo *philo);
@@ -103,6 +99,9 @@ int				pstate_transition(t_pinfo *pinfo, t_philo *philo,
 
 // philo_utils
 size_t			philo_currt(t_philo *philo);
+void			set_forks_status(t_pinfo *pinfo, t_philo *philo, size_t value);
+int				get_forks_status(t_pinfo *pinfo, t_philo *philo);
+void			update_meals(t_pinfo *pinfo, t_philo *philo);
 
 // init
 t_pinfo			*init_pinfo(size_t *params, int size);

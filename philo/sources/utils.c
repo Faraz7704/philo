@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 23:20:00 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/24 19:30:12 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/25 15:51:54 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	ft_atol(const char *str, size_t *dst)
 	*dst = 0;
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 	{
+		*dst = *dst * 10 + (str[i] - '0');
 		if (*dst > __INT_MAX__)
 			return (0);
-		*dst = *dst * 10 + (str[i] - '0');
 		i++;
 	}
 	if (str[i] != '\0')
