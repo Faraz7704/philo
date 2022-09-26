@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:23 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/26 17:29:45 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/26 21:04:04 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,20 @@ typedef struct s_thdata
 	struct s_philo	*philo;
 }	t_thdata;
 
+typedef struct s_thsize_t
+{
+	pthread_mutex_t	mutex;
+	size_t			value;
+}	t_thsize_t;
+
 typedef struct s_philo
 {
 	pthread_t		thid;
 	size_t			id;
-	size_t			fork_value;
 	ssize_t			meals;
 	size_t			lfork;
 	size_t			rfork;
+	size_t			maskout_fork;
 	t_state			state;
 	int				(*action)(struct s_pinfo *pinfo, struct s_philo *philo);
 	size_t			createdt;
@@ -64,13 +70,10 @@ typedef struct s_pinfo
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	ssize_t			amount_to_eat;
-	pthread_mutex_t	finish_mutex;
-	size_t			finish_status;
-	pthread_mutex_t	*fork_mutexes;
-	size_t			*forks_status;
-	pthread_mutex_t	write_mutex;
-	pthread_mutex_t	quit_mutex;
-	size_t			quit_status;
+	t_thsize_t		*forks;
+	t_thsize_t		write;
+	t_thsize_t		finish;
+	t_thsize_t		quit;
 }	t_pinfo;
 
 // routine
@@ -89,6 +92,12 @@ int				pstate_takeforks(t_pinfo *pinfo, t_philo *philo);
 int				pstate_eat(t_pinfo *pinfo, t_philo *philo);
 int				pstate_sleep(t_pinfo *pinfo, t_philo *philo);
 int				pstate_think(t_pinfo *pinfo, t_philo *philo);
+
+// thread_size_t
+int				thsize_t_init(t_thsize_t *data, size_t value);
+void			thsize_t_set(t_thsize_t *data, size_t value);
+size_t			thsize_t_get(t_thsize_t *data);
+int				thsize_t_destroy(t_thsize_t *data, size_t value);
 
 // philo_exit_states
 int				pstate_died(t_pinfo *pinfo, t_philo *philo);
@@ -109,7 +118,10 @@ void			update_meals(t_pinfo *pinfo, t_philo *philo);
 t_pinfo			*init_pinfo(size_t *params, int size);
 t_thdata		*init_thdata(t_pinfo *pinfo, t_philo *philo);
 t_philo			*init_philo(t_pinfo *pinfo);
+
+// forks
 int				init_forks(t_pinfo *pinfo, size_t size);
+void			init_set_forks(t_philo *philo, int i, int amount);
 
 // parse_arg
 size_t			*parse_arg(char **av, int size);

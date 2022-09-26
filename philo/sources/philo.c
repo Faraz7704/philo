@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/24 19:59:02 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/26 20:49:43 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,17 @@ static void	exit_app(t_pinfo *pinfo, t_philo *philos)
 {
 	size_t	i;
 
-	free(philos);
 	i = 0;
 	while (i < pinfo->amount)
 	{
-		pthread_mutex_destroy(&pinfo->fork_mutexes[i]);
+		thsize_t_destroy(&pinfo->forks[i], 0);
 		i++;
 	}
-	pthread_mutex_destroy(&pinfo->finish_mutex);
-	pthread_mutex_destroy(&pinfo->write_mutex);
-	pthread_mutex_destroy(&pinfo->quit_mutex);
-	free(pinfo->fork_mutexes);
-	free(pinfo->forks_status);
+	thsize_t_destroy(&pinfo->finish, 0);
+	thsize_t_destroy(&pinfo->write, 0);
+	thsize_t_destroy(&pinfo->quit, 0);
+	free(philos);
+	free(pinfo->forks);
 	free(pinfo);
 }
 
@@ -41,6 +40,8 @@ static int	start_threads(t_pinfo *pinfo, t_philo *philos)
 		if (pthread_create(&philos[i].thid, NULL,
 				&philo_routine, init_thdata(pinfo, &philos[i])))
 			return (1);
+		if (philos[i].id % 2)
+			usleep(100);
 		i++;
 	}
 	i = 0;

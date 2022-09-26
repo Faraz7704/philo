@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 23:20:00 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/25 19:56:11 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/26 17:51:07 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_atol(const char *str, size_t *dst)
 
 size_t	ft_get_time(void)
 {
-	static struct timeval	tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
