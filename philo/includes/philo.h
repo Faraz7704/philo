@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:23 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/25 19:33:40 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/26 17:29:45 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void			*philo_routine(void *data);
 
 // logger
 void			log_philo(t_pinfo *info, t_philo *philo,
+					char *prefix, char *suffix);
+void			log_philo_woid(t_pinfo *info, t_philo *philo,
 					char *prefix, char *suffix);
 
 // philo_states
