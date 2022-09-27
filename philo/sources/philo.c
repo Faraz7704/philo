@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 13:39:47 by fkhan             #+#    #+#             */
-/*   Updated: 2022/09/26 20:49:43 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/09/27 16:04:11 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ static int	start_threads(t_pinfo *pinfo, t_philo *philos)
 		if (pthread_create(&philos[i].thid, NULL,
 				&philo_routine, init_thdata(pinfo, &philos[i])))
 			return (1);
-		if (philos[i].id % 2)
-			usleep(100);
+		usleep(100);
 		i++;
 	}
 	i = 0;

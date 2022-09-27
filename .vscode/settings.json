@@ -28,6 +28,10 @@
         "ratio": "c",
         "system_error": "c",
         "tuple": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "philo_bonus.h": "c",
+        "sstream": "c",
+        "pthread.h": "c",
+        "time.h": "c"
     }
 }

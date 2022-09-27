@@ -6,12 +6,12 @@
 #    By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:40:15 by fkhan             #+#    #+#              #
-#    Updated: 2022/09/26 21:07:43 by fkhan            ###   ########.fr        #
+#    Updated: 2022/09/27 15:57:40 by fkhan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 				= philo
-CC 					= gcc -g
+CC 					= gcc
 FLAGS 				= -Wall -Werror -Wextra
 INCLUDES 			= -I$(HEADERS_DIRECTORY)
 
